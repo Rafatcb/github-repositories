@@ -13,8 +13,18 @@
     "lint": "yarn eslint && yarn check-types && yarn stylelint"
   },
   "dependencies": {
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/native": "^5.7.6",
+    "@react-navigation/stack": "^5.9.3",
     "react": "16.13.1",
-    "react-native": "0.63.3"
+    "react-native": "0.63.3",
+    "react-native-gesture-handler": "^1.8.0",
+    "react-native-reanimated": "^1.13.1",
+    "react-native-safe-area-context": "^3.1.8",
+    "react-native-screens": "^2.11.0",
+    "react-native-shared-element": "^0.7.0",
+    "react-native-vector-icons": "^7.1.0",
+    "react-navigation-shared-element": "^5.0.0-alpha1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
@@ -22,6 +32,7 @@
     "@react-native-community/eslint-config": "^2.0.0",
     "@types/jest": "^26.0.15",
     "@types/react-native": "^0.63.26",
+    "@types/react-native-vector-icons": "^6.4.6",
     "@types/react-test-renderer": "^16.9.3",
     "@typescript-eslint/eslint-plugin": "4.5.0",
     "@typescript-eslint/parser": "^4.5.0",

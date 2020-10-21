@@ -1,13 +1,20 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import { Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { EnterAccount } from './src/pages/EnterAccount';
 import { ThemeManager } from './src/contexts/themeManager';
 
 const App = () => {
   return (
-    <ThemeManager>
-      <Text>Empty content</Text>
-    </ThemeManager>
+    <SafeAreaProvider>
+      <ThemeManager>
+        <NavigationContainer>
+          <EnterAccount />
+        </NavigationContainer>
+      </ThemeManager>
+    </SafeAreaProvider>
   );
 };
 

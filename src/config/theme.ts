@@ -2,13 +2,34 @@ export const ThemeColors = {
   border: {
     light: '#bb9eff',
   },
-  primary: {
+  card: {
     light: '#6f42c1',
+  },
+  cardButton: {
+    light: '#845ecb',
+  },
+  cardTitle: {
+    light: '#ffffff',
+  },
+  iconOnCard: {
+    light: '#ffffff',
+  },
+  placeholder: {
+    light: '#bb9eff',
+  },
+  rippleOnCard: {
+    light: '#bb9eff',
   },
   selection: {
     light: '#bb9eff',
   },
-  textOnPrimary: {
+  shadow: {
+    light: '#000000',
+  },
+  textErrorOnCard: {
+    light: '#cf6679',
+  },
+  textOnCard: {
     light: '#e1e1e1',
   },
 };
