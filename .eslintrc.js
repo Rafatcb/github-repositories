@@ -9,7 +9,10 @@ module.exports = {
   ],
   overrides: [
     {
-      extends: ['plugin:@typescript-eslint/recommended'],
+      extends: [
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+      ],
       files: ['*.ts', '*.tsx'],
       parserOptions: {
         project: ['./tsconfig.json'],
@@ -158,7 +161,6 @@ module.exports = {
     // Static analysis
     'import/no-absolute-path': 'error', // forbid import of modules using absolute paths
     'import/no-dynamic-require': 'warn', // forbid `require()` calls with expressions
-    'import/no-cycle': 'error', // forbid a module from importing a module with a dependency path back to itself
     'import/no-useless-path-segments': 'warn', // prevent unnecessary path segments in import and require statements
 
     // Helpful warnings
