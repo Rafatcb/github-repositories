@@ -14,15 +14,13 @@
     "max-empty-lines": 1,
     "no-eol-whitespace": true,
     "no-empty-first-line": true,
-    "number-leading-zero": "never",
     "number-no-trailing-zeros": true,
-    "number-max-precision": 0,
+    "number-max-precision": 2,
     "property-case": "lower",
     "react-native/font-weight-no-ignored-values": true,
     "react-native/style-property-no-unknown": true,
     "string-quotes": "single",
     "unit-allowed-list": "%",
-    "unit-case": "lower",
-    "value-keyword-case": "lower"
+    "unit-case": "lower"
   }
 }
