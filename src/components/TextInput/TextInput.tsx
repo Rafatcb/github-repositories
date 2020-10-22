@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react';
-import {
+import type {
   NativeSyntheticEvent,
-  StyleSheet,
-  TextInput as RNInput,
   TextInputFocusEventData,
   TextInputProps as RNInputProps,
 } from 'react-native';
+import { StyleSheet, TextInput as RNInput } from 'react-native';
 
 import { useTheme } from '../../contexts/themeManager';
+
 import { Text } from '../Text/Text';
 
 export interface TextInputRef extends RNInput {

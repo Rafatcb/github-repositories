@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, View, ViewStyle } from 'react-native';
+import type { ViewStyle } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { useTheme } from '../../contexts/themeManager';
 

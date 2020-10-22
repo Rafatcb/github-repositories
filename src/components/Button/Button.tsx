@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import type {
+  GestureResponderEvent,
+  PressableProps,
+  StyleProp,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 import {
   Animated,
   Easing,
-  GestureResponderEvent,
   Platform,
   Pressable,
-  PressableProps,
   StyleSheet,
-  TextStyle,
   View,
 } from 'react-native';
 
@@ -47,7 +51,10 @@ export const Button: React.FC<ButtonProps> = ({
     onPressOut?.(event);
   }
 
-  const buttonStyles: any[] = [styles.button];
+  const buttonStyles: (
+    | StyleProp<ViewStyle>
+    | Animated.WithAnimatedValue<ViewStyle>
+  )[] = [styles.button];
 
   const pressableFuncStyle = typeof style === 'function' ? style : null;
   let Container: typeof View | typeof Animated.View = View;
@@ -63,7 +70,7 @@ export const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <Container style={buttonStyles}>
+    <Container style={buttonStyles as StyleProp<ViewStyle>[]}>
       <Pressable
         {...props}
         onPressIn={handlePressIn}

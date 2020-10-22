@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
-import { getTheme, Theme } from '../config/theme';
+import type { Theme } from '../config/theme';
+import { getTheme } from '../config/theme';
 
 interface ThemeData {
   theme: Theme;

@@ -1,19 +1,17 @@
 import React, { useMemo, useRef, useState } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  PressableAndroidRippleConfig,
-  StyleSheet,
-} from 'react-native';
-import { Card } from '../components/Card/Card';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import type { PressableAndroidRippleConfig } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { useTheme } from '../contexts/themeManager';
 
 import { Button } from '../components/Button/Button';
+import { Card } from '../components/Card/Card';
 import { Text } from '../components/Text/Text';
-import { TextInput, TextInputRef } from '../components/TextInput/TextInput';
+import type { TextInputRef } from '../components/TextInput/TextInput';
+import { TextInput } from '../components/TextInput/TextInput';
 
 export const EnterAccount: React.FC = () => {
   const { theme } = useTheme();
