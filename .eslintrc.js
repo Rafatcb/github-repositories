@@ -182,7 +182,7 @@ module.exports = {
           'module',
           '//services/',
           '//contexts/',
-          '//pages/',
+          '//screens/',
           '//components/',
           ['parent', 'sibling', 'index'],
         ],
