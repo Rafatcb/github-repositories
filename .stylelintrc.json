@@ -20,7 +20,6 @@
     "react-native/font-weight-no-ignored-values": true,
     "react-native/style-property-no-unknown": true,
     "string-quotes": "single",
-    "unit-allowed-list": "%",
     "unit-case": "lower"
   }
 }
