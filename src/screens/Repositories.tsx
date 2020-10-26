@@ -22,9 +22,9 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = () => {
   ]);
 
   return (
-    <SafeAreaView style={styles.sharedElementContainer}>
-      <SharedElement id="card-enter">
-        <View style={[styles.container, screenColor]} />
+    <SafeAreaView style={styles.container}>
+      <SharedElement id="card-enter" style={styles.container}>
+        <View style={[styles.sharedElement, screenColor]} />
       </SharedElement>
     </SafeAreaView>
   );
@@ -36,15 +36,11 @@ Repositories.sharedElements = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center',
-    padding: 16,
-    borderRadius: 500,
-  },
-  sharedElementContainer: {
     flexGrow: 1,
-    justifyContent: 'center',
+  },
+  sharedElement: {
+    width: '100%',
+    flexGrow: 1,
   },
 });
 

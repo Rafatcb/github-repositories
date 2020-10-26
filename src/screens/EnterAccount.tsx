@@ -89,7 +89,7 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
     }
 
     function handleBlur() {
-      fadeContent(0, 200);
+      fadeContent(0, 0);
     }
 
     function handleFocus() {
