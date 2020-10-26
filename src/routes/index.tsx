@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
@@ -15,7 +16,10 @@ export const Routes: React.FC = () => {
     <NavigationContainer>
       <AppStack.Navigator
         initialRouteName="EnterAccount"
-        screenOptions={{ headerShown: false }}>
+        screenOptions={{
+          headerShown: false,
+          gestureEnabled: Platform.OS === 'ios',
+        }}>
         <AppStack.Screen component={EnterAccount} name="EnterAccount" />
         <AppStack.Screen component={Repositories} name="Repositories" />
       </AppStack.Navigator>
