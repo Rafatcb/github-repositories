@@ -1,0 +1,25 @@
+diff --git a/node_modules/react-navigation-shared-element/lib/typescript/createSharedElementStackNavigator.d.ts b/node_modules/react-navigation-shared-element/lib/typescript/createSharedElementStackNavigator.d.ts
+index 0be8719..24a403e 100644
+--- a/node_modules/react-navigation-shared-element/lib/typescript/createSharedElementStackNavigator.d.ts
++++ b/node_modules/react-navigation-shared-element/lib/typescript/createSharedElementStackNavigator.d.ts
+@@ -32,7 +32,7 @@ export default function createSharedElementStackNavigator<ParamList extends Reco
+         }) => StackNavigationOptions) | undefined;
+     }>) => JSX.Element;
+     Screen: <RouteName extends keyof ParamList>(_: Pick<RouteConfig<ParamList, RouteName, StackNavigationState, StackNavigationOptions, StackNavigationEventMap>, "name" | "options" | "listeners" | "initialParams"> & {
+-        component: SharedElementSceneComponent;
++        component: SharedElementSceneComponent<any>;
+         sharedElementsConfig?: SharedElementsComponentConfig<import("./types").SharedElementRoute<any, any>, import("./types").SharedElementRoute<any, any>> | undefined;
+     }) => null;
+ };
+diff --git a/node_modules/react-navigation-shared-element/lib/typescript/types.d.ts b/node_modules/react-navigation-shared-element/lib/typescript/types.d.ts
+index 935aaa4..d944e41 100644
+--- a/node_modules/react-navigation-shared-element/lib/typescript/types.d.ts
++++ b/node_modules/react-navigation-shared-element/lib/typescript/types.d.ts
+@@ -26,6 +26,6 @@ export declare type SharedElementRoute<RouteName extends string = any, Params ex
+     params?: Params;
+ };
+ export declare type SharedElementsComponentConfig<Route extends SharedElementRoute = SharedElementRoute<any, any>, OtherRoute extends SharedElementRoute = SharedElementRoute<any, any>> = (route: Route, otherRoute: OtherRoute, showing: boolean) => SharedElementsConfig | undefined;
+-export declare type SharedElementSceneComponent = React.ComponentType<any> & {
++export declare type SharedElementSceneComponent<P = {}> = React.ComponentType<P> & {
+     sharedElements?: SharedElementsComponentConfig;
+ };
