@@ -203,6 +203,21 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
     return () => backHandlerListener.remove();
   }, [hideListAndGoBack, navigation]);
 
+  useEffect(() => {
+    function handleFocus() {
+      Animated.timing(hideAnim, {
+        duration: 0,
+        toValue: 1,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    const focusHandler = navigation.addListener('focus', handleFocus);
+
+    return () => focusHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigation]);
+
   function flatListKeyExtractor(item: Repository) {
     return `${item.name}-${item.createdAt}`;
   }
