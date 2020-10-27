@@ -72,8 +72,6 @@ export const CardPressable: React.FC<CardPressableProps> = ({
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         style={[styles.wrapper, pressableColor]}
-        // @ts-expect-error: `unstable_pressDelay` is not on TypeScript props, but it exists
-        //  See https://github.com/facebook/react-native/commit/a6395d5
         unstable_pressDelay={unstablePressDelay}
       >
         <Card {...props} style={[styles.card, style]} />

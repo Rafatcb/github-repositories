@@ -16,6 +16,21 @@ import { useTheme } from '../contexts/themeManager';
 import { CardPressable } from '../components/CardPressable/CardPressable';
 import { Text } from '../components/Text/Text';
 
+import C from '../../assets/languages/c.svg';
+import Coding from '../../assets/languages/coding.svg';
+import Cpp from '../../assets/languages/cpp.svg';
+import Csharp from '../../assets/languages/csharp.svg';
+import CSS from '../../assets/languages/css.svg';
+import Go from '../../assets/languages/go.svg';
+import Java from '../../assets/languages/java.svg';
+import JavaScript from '../../assets/languages/javascript.svg';
+import Kotlin from '../../assets/languages/kotlin.svg';
+import PHP from '../../assets/languages/php.svg';
+import Powershell from '../../assets/languages/powershell.svg';
+import Python from '../../assets/languages/python.svg';
+import Ruby from '../../assets/languages/ruby.svg';
+import Rust from '../../assets/languages/rust.svg';
+import TypeScript from '../../assets/languages/typescript.svg';
 import type { AppStackParamList } from '../routes/types';
 
 type RepositoriesProps = StackScreenProps<AppStackParamList, 'Repositories'>;
@@ -25,12 +40,50 @@ interface RepositoryCardProps {
   item: Repository;
 }
 
+const languagesSvg = {
+  default: Coding,
+  C,
+  'C++': Cpp,
+  'C#': Csharp,
+  CSS,
+  Go,
+  Java,
+  JavaScript,
+  Kotlin,
+  PHP,
+  Python,
+  Ruby,
+  Rust,
+  Shell: Powershell,
+  TypeScript,
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getIconName = (language: string | null): React.FC<any> => {
+  if (!language) {
+    return languagesSvg.default;
+  }
+
+  const exists = language in languagesSvg;
+
+  // @ts-expect-error It is valid.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const Component = exists ? languagesSvg[language] : languagesSvg.default;
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  Component.displayName = exists ? language : 'Default';
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return Component;
+};
+
 const RepositoryCard: React.FC<RepositoryCardProps> = ({ item }) => {
   const { theme } = useTheme();
 
   function handleRepositoryPress() {}
 
   const date = new Date(item.createdAt).toLocaleDateString();
+
+  const LanguageIcon = getIconName(item.language);
 
   return (
     <CardPressable
@@ -42,8 +95,13 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({ item }) => {
       unstablePressDelay={70}
       wrapperStyle={styles.cardWrapper}
     >
-      <Text style={styles.cardTitle}>{item.name}</Text>
-      <Text>{date}</Text>
+      <View style={styles.cardHeader}>
+        <LanguageIcon height={24} style={styles.cardLanguage} width={24} />
+        <Text numberOfLines={1} style={styles.cardTitle}>
+          {item.name}
+        </Text>
+      </View>
+      <Text>Created at {date}</Text>
       {item.description ? (
         <Text>
           {'\n'}
@@ -122,6 +180,7 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
       </View>
       <FlatList
         key="repo-list"
+        contentContainerStyle={styles.list}
         data={route.params?.repositories}
         keyExtractor={flatListKeyExtractor}
         renderItem={renderItem}
@@ -155,6 +214,13 @@ const styles = StyleSheet.create({
     flexGrow: 0.5,
     elevation: 0,
   },
+  cardHeader: {
+    flexDirection: 'row',
+  },
+  cardLanguage: {
+    marginRight: 8,
+    marginBottom: 8,
+  },
   cardTitle: {
     fontFamily: 'Montserrat-Bold',
   },
@@ -171,6 +237,9 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     textAlignVertical: 'center',
+  },
+  list: {
+    paddingBottom: 8,
   },
   sharedElement: {
     width: '100%',

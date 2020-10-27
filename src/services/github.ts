@@ -18,7 +18,7 @@ export interface User {
 export interface Repository {
   createdAt: string;
   description: string | null;
-  language: string;
+  language: string | null;
   languagesUrl: string;
   name: string;
 }
