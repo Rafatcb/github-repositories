@@ -1,6 +1,8 @@
 interface ReposResponseData {
   created_at: string;
   description: string | null;
+  language: string;
+  languages_url: string;
   name: string;
   owner: {
     avatar_url: string;
@@ -16,6 +18,8 @@ export interface User {
 export interface Repository {
   createdAt: string;
   description: string | null;
+  language: string;
+  languagesUrl: string;
   name: string;
 }
 
@@ -30,6 +34,8 @@ export const getRepositories = async (
   const repositories: Repository[] = data.map(repo => ({
     createdAt: repo.created_at,
     description: repo.description,
+    language: repo.language,
+    languagesUrl: repo.languages_url,
     name: repo.name,
   }));
 

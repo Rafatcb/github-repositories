@@ -35,15 +35,16 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
 
   const [inputError, setInputError] = useState('');
 
-  const buttonColor = useMemo(() => ({ backgroundColor: theme.cardButton }), [
-    theme.cardButton,
-  ]);
-  const textColor = useMemo(() => ({ color: theme.cardTitle }), [
-    theme.cardTitle,
+  const buttonColor = useMemo(
+    () => ({ backgroundColor: theme.buttonOnPrimary }),
+    [theme.buttonOnPrimary],
+  );
+  const textColor = useMemo(() => ({ color: theme.textPrimaryOnPrimary }), [
+    theme.textPrimaryOnPrimary,
   ]);
   const ripple: PressableAndroidRippleConfig = useMemo(
-    () => ({ color: theme.rippleOnCard }),
-    [theme.rippleOnCard],
+    () => ({ color: theme.rippleOnPrimary }),
+    [theme.rippleOnPrimary],
   );
 
   useEffect(() => {
@@ -192,10 +193,11 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
         <Card
           animatedStyle={cardSlideInStyle}
           sharedElementId="card-enter"
-          style={styles.card}>
+          style={styles.card}
+        >
           <Animated.View style={contentFadeStyle}>
             <Icon
-              color={theme.iconOnCard}
+              color={theme.iconOnPrimary}
               name="github"
               size={100}
               style={styles.icon}
