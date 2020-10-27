@@ -1,6 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { PressableAndroidRippleConfig, ViewStyle } from 'react-native';
-import { Animated, FlatList, Pressable, StyleSheet, View } from 'react-native';
+import {
+  Animated,
+  BackHandler,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import type { StackScreenProps } from '@react-navigation/stack';
 import FastImage from 'react-native-fast-image';
@@ -154,13 +161,15 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
 }) => {
   const { theme } = useTheme();
 
+  const [hideAnim] = useState(new Animated.Value(1));
+
   const headerTitleColor = useMemo(
     () => ({ color: theme.textPrimaryOnPrimary }),
     [theme.textPrimaryOnPrimary],
   );
 
   const ripple: PressableAndroidRippleConfig = useMemo(
-    () => ({ radius: 500, color: theme.rippleOnPrimary }),
+    () => ({ radius: 32, color: theme.rippleOnPrimary }),
     [theme.rippleOnPrimary],
   );
 
@@ -168,18 +177,38 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
     theme.primary,
   ]);
 
-  useEffect(() => {
-    if (!route.params) {
+  const hideListAndGoBack = useCallback(() => {
+    Animated.spring(hideAnim, {
+      toValue: 0,
+      useNativeDriver: true,
+    }).start();
+
+    setTimeout(() => {
       navigation.goBack();
+    }, 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigation]);
+
+  useEffect(() => {
+    function backHandler() {
+      hideListAndGoBack();
+      return true;
     }
-  }, [navigation, route.params]);
+
+    const backHandlerListener = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backHandler,
+    );
+
+    return () => backHandlerListener.remove();
+  }, [hideListAndGoBack, navigation]);
 
   function flatListKeyExtractor(item: Repository) {
     return `${item.name}-${item.createdAt}`;
   }
 
   function handleBackPress() {
-    navigation.goBack();
+    hideListAndGoBack();
   }
 
   function handleRepositoryPress(repo: Repository) {
@@ -189,6 +218,15 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
   function renderItem(props: { index: number; item: Repository }) {
     return <RepositoryCard {...props} onPress={handleRepositoryPress} />;
   }
+
+  const hideAnimationStyle: Animated.WithAnimatedValue<ViewStyle> = {
+    opacity: hideAnim,
+    transform: [
+      {
+        scale: hideAnim,
+      },
+    ],
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -215,16 +253,18 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
           style={styles.avatar}
         />
         <Text style={[styles.headerTitle, headerTitleColor]}>
-          {route.params?.user?.username}
+          {route.params.user.username}
         </Text>
       </View>
-      <FlatList
-        key="repo-list"
-        contentContainerStyle={styles.list}
-        data={route.params?.repositories}
-        keyExtractor={flatListKeyExtractor}
-        renderItem={renderItem}
-      />
+      <Animated.View style={[styles.listContainer, hideAnimationStyle]}>
+        <FlatList
+          key="repo-list"
+          contentContainerStyle={styles.list}
+          data={route.params.repositories}
+          keyExtractor={flatListKeyExtractor}
+          renderItem={renderItem}
+        />
+      </Animated.View>
     </SafeAreaView>
   );
 };
@@ -269,7 +309,6 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   container: {
-    flex: 1,
     flexGrow: 1,
   },
   header: {
@@ -280,6 +319,9 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingBottom: 8,
+  },
+  listContainer: {
+    flex: 1,
   },
   sharedElement: {
     width: '100%',
