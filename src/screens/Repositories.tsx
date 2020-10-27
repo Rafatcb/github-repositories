@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
-import type { PressableAndroidRippleConfig } from 'react-native';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import type { PressableAndroidRippleConfig, ViewStyle } from 'react-native';
+import { Animated, FlatList, Pressable, StyleSheet, View } from 'react-native';
 
 import type { StackScreenProps } from '@react-navigation/stack';
 import FastImage from 'react-native-fast-image';
@@ -38,6 +38,7 @@ type RepositoriesProps = StackScreenProps<AppStackParamList, 'Repositories'>;
 interface RepositoryCardProps {
   index: number;
   item: Repository;
+  onPress: (repo: Repository) => void;
 }
 
 const languagesSvg = {
@@ -76,39 +77,74 @@ const getIconName = (language: string | null): React.FC<any> => {
   return Component;
 };
 
-const RepositoryCard: React.FC<RepositoryCardProps> = ({ item }) => {
+const RepositoryCard: React.FC<RepositoryCardProps> = ({
+  index,
+  item,
+  onPress,
+}) => {
   const { theme } = useTheme();
 
-  function handleRepositoryPress() {}
+  const [showAnim] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    function randomIntFromInterval(min: number, max: number) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    Animated.spring(showAnim, {
+      toValue: 1,
+      delay: 1000 + randomIntFromInterval(290, 400) * index,
+      useNativeDriver: true,
+    }).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function handleRepositoryPress() {
+    onPress(item);
+  }
 
   const date = new Date(item.createdAt).toLocaleDateString();
 
   const LanguageIcon = getIconName(item.language);
 
+  const showStyle: Animated.WithAnimatedValue<ViewStyle> = {
+    opacity: showAnim,
+    transform: [
+      {
+        translateY: showAnim.interpolate({
+          inputRange: [0, 1],
+          outputRange: [300, 0],
+        }),
+      },
+    ],
+  };
+
   return (
-    <CardPressable
-      key={`${item.name}-${item.createdAt}`}
-      color={theme.cardOnPrimary}
-      onPress={handleRepositoryPress}
-      rippleColor={theme.rippleOnCard}
-      style={styles.card}
-      unstablePressDelay={70}
-      wrapperStyle={styles.cardWrapper}
-    >
-      <View style={styles.cardHeader}>
-        <LanguageIcon height={24} style={styles.cardLanguage} width={24} />
-        <Text numberOfLines={1} style={styles.cardTitle}>
-          {item.name}
-        </Text>
-      </View>
-      <Text>Created at {date}</Text>
-      {item.description ? (
-        <Text>
-          {'\n'}
-          {item.description}
-        </Text>
-      ) : null}
-    </CardPressable>
+    <Animated.View style={showStyle}>
+      <CardPressable
+        key={`${item.name}-${item.createdAt}`}
+        color={theme.cardOnPrimary}
+        onPress={handleRepositoryPress}
+        rippleColor={theme.rippleOnCard}
+        style={styles.card}
+        unstablePressDelay={70}
+        wrapperStyle={styles.cardWrapper}
+      >
+        <View style={styles.cardHeader}>
+          <LanguageIcon height={24} style={styles.cardLanguage} width={24} />
+          <Text numberOfLines={1} style={styles.cardTitle}>
+            {item.name}
+          </Text>
+        </View>
+        <Text>Created at {date}</Text>
+        {item.description ? (
+          <Text>
+            {'\n'}
+            {item.description}
+          </Text>
+        ) : null}
+      </CardPressable>
+    </Animated.View>
   );
 };
 
@@ -146,8 +182,12 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
     navigation.goBack();
   }
 
+  function handleRepositoryPress(repo: Repository) {
+    navigation.navigate('RepositoryDetails', { repository: repo });
+  }
+
   function renderItem(props: { index: number; item: Repository }) {
-    return <RepositoryCard {...props} />;
+    return <RepositoryCard {...props} onPress={handleRepositoryPress} />;
   }
 
   return (
