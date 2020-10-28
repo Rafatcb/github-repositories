@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import type { PressableAndroidRippleConfig, ViewStyle } from 'react-native';
+import type {
+  PressableAndroidRippleConfig,
+  ViewStyle,
+  ViewToken,
+} from 'react-native';
 import {
   Animated,
   BackHandler,
@@ -43,6 +47,7 @@ import type { AppStackParamList } from '../routes/types';
 type RepositoriesProps = StackScreenProps<AppStackParamList, 'Repositories'>;
 
 interface RepositoryCardProps {
+  animate: boolean;
   index: number;
   item: Repository;
   onPress: (repo: Repository) => void;
@@ -85,7 +90,7 @@ const getIconName = (language: string | null): React.FC<any> => {
 };
 
 const RepositoryCard: React.FC<RepositoryCardProps> = ({
-  index,
+  animate,
   item,
   onPress,
 }) => {
@@ -94,17 +99,19 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({
   const [showAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
-    function randomIntFromInterval(min: number, max: number) {
-      return Math.floor(Math.random() * (max - min + 1) + min);
+    function showAnimation() {
+      Animated.spring(showAnim, {
+        toValue: 1,
+        delay: 100,
+        useNativeDriver: true,
+      }).start();
     }
 
-    Animated.spring(showAnim, {
-      toValue: 1,
-      delay: 1000 + randomIntFromInterval(290, 400) * index,
-      useNativeDriver: true,
-    }).start();
+    if (animate) {
+      showAnimation();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [animate]);
 
   function handleRepositoryPress() {
     onPress(item);
@@ -162,6 +169,7 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
   const { theme } = useTheme();
 
   const [hideAnim] = useState(new Animated.Value(1));
+  const [viewedItems, setViewedItems] = useState<number[]>([]);
 
   const headerTitleColor = useMemo(
     () => ({ color: theme.textPrimaryOnPrimary }),
@@ -176,6 +184,29 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
   const screenColor = useMemo(() => ({ backgroundColor: theme.primary }), [
     theme.primary,
   ]);
+
+  const handleViewableItemsChanged = useCallback(
+    (info: { changed: ViewToken[]; viewableItems: ViewToken[] }) => {
+      const { changed } = info;
+      let newViewedItems: number[] | null = null;
+
+      setViewedItems(oldViewedItems => {
+        changed.forEach(({ index, isViewable }) => {
+          const viewed = index != null && oldViewedItems.includes(index);
+
+          if (index != null && isViewable && !viewed) {
+            if (newViewedItems == null) {
+              newViewedItems = [...oldViewedItems];
+            }
+            newViewedItems.push(index);
+          }
+        });
+
+        return newViewedItems ?? oldViewedItems;
+      });
+    },
+    [],
+  );
 
   const hideListAndGoBack = useCallback(() => {
     Animated.spring(hideAnim, {
@@ -231,7 +262,14 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
   }
 
   function renderItem(props: { index: number; item: Repository }) {
-    return <RepositoryCard {...props} onPress={handleRepositoryPress} />;
+    const animate = viewedItems.includes(props.index);
+    return (
+      <RepositoryCard
+        {...props}
+        animate={animate}
+        onPress={handleRepositoryPress}
+      />
+    );
   }
 
   const hideAnimationStyle: Animated.WithAnimatedValue<ViewStyle> = {
@@ -277,6 +315,7 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
           contentContainerStyle={styles.list}
           data={route.params.repositories}
           keyExtractor={flatListKeyExtractor}
+          onViewableItemsChanged={handleViewableItemsChanged}
           renderItem={renderItem}
         />
       </Animated.View>
