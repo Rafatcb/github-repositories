@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 module.exports = {
   root: true,
   extends: [
@@ -31,10 +32,7 @@ module.exports = {
           { prefer: 'type-imports' },
         ],
         // require a consistent member declaration order
-        '@typescript-eslint/member-ordering': [
-          'warn',
-          { default: { order: 'alphabetically' } },
-        ],
+        '@typescript-eslint/member-ordering': 'warn',
         // disallow throwing literals as exceptions
         '@typescript-eslint/no-throw-literal': 'warn',
         // flags unnecessary equality comparisons against boolean literals
@@ -147,6 +145,7 @@ module.exports = {
     'lines-between-class-members': ['warn', 'always'], // require or disallow an empty line between class members
     'no-nested-ternary': 'warn', // disallow nested ternary expressions
     'no-unneeded-ternary': 'warn', // disallow ternary operators when simpler alternatives exist
+    'sort-keys': 'warn', // require object keys to be sorted
 
     // EcmaScript 6
     // These rules relate to ES6, also known as ES2015

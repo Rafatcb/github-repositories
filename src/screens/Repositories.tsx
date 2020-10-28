@@ -55,9 +55,10 @@ interface RepositoryCardProps {
 
 const languagesSvg = {
   default: Coding,
+  // eslint-disable-next-line sort-keys
   C,
-  'C++': Cpp,
   'C#': Csharp,
+  'C++': Cpp,
   CSS,
   Go,
   Java,
@@ -101,8 +102,8 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({
   useEffect(() => {
     function showAnimation() {
       Animated.spring(showAnim, {
-        toValue: 1,
         delay: 100,
+        toValue: 1,
         useNativeDriver: true,
       }).start();
     }
@@ -136,7 +137,7 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({
   return (
     <Animated.View style={showStyle}>
       <CardPressable
-        key={`${item.name}-${item.createdAt}`}
+        key={`${item.name}-${item.createdAt.toString()}`}
         color={theme.cardOnPrimary}
         onPress={handleRepositoryPress}
         rippleColor={theme.rippleOnCard}
@@ -177,7 +178,7 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
   );
 
   const ripple: PressableAndroidRippleConfig = useMemo(
-    () => ({ radius: 32, color: theme.rippleOnPrimary }),
+    () => ({ color: theme.rippleOnPrimary, radius: 32 }),
     [theme.rippleOnPrimary],
   );
 
@@ -250,7 +251,7 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
   }, [navigation]);
 
   function flatListKeyExtractor(item: Repository) {
-    return `${item.name}-${item.createdAt}`;
+    return `${item.name}-${item.createdAt.toString()}`;
   }
 
   function handleBackPress() {
@@ -327,6 +328,7 @@ Repositories.sharedElements = () => {
   return ['card-enter'];
 };
 
+/* eslint-disable sort-keys */
 const styles = StyleSheet.create({
   avatar: {
     width: 36,
@@ -382,5 +384,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
+/* eslint-enable sort-keys */
 
 export { Repositories };

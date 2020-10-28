@@ -16,7 +16,7 @@ export interface User {
 }
 
 export interface Repository {
-  createdAt: string;
+  createdAt: Date;
   description: string | null;
   language: string | null;
   languagesUrl: string;
@@ -32,7 +32,7 @@ export const getRepositories = async (
   const data = (await response.json()) as ReposResponseData[];
 
   const repositories: Repository[] = data.map(repo => ({
-    createdAt: repo.created_at,
+    createdAt: new Date(repo.created_at),
     description: repo.description,
     language: repo.language,
     languagesUrl: repo.languages_url,
@@ -49,5 +49,5 @@ export const getRepositories = async (
     owner.username = data[0].owner.login;
   }
 
-  return { user: owner, repositories };
+  return { repositories, user: owner };
 };

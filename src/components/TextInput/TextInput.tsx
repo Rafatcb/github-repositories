@@ -26,8 +26,8 @@ const TextInput = React.forwardRef<TextInputRef, TextInputProps>(
     const borderWidth = useMemo(
       () => ({
         borderBottomWidth: focused ? 2 : 1,
-        borderTopWidth: focused ? 0 : 1,
         borderTopColor: '#ffffff00', // To avoid flickering elements when (un)focusing
+        borderTopWidth: focused ? 0 : 1,
       }),
       [focused],
     );
@@ -77,6 +77,7 @@ const TextInput = React.forwardRef<TextInputRef, TextInputProps>(
 
 TextInput.displayName = 'TextInput';
 
+/* eslint-disable sort-keys */
 const styles = StyleSheet.create({
   input: {
     paddingBottom: 4,
@@ -86,5 +87,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+/* eslint-enable sort-keys */
 
 export { TextInput };
