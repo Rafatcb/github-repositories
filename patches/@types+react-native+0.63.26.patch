@@ -1,0 +1,16 @@
+diff --git a/node_modules/@types/react-native/index.d.ts b/node_modules/@types/react-native/index.d.ts
+index 7fa9346..7e38cba 100644
+--- a/node_modules/@types/react-native/index.d.ts
++++ b/node_modules/@types/react-native/index.d.ts
+@@ -543,6 +543,11 @@ export interface PressableProps extends AccessibilityProps, Omit<ViewProps, 'sty
+      */
+     testOnly_pressed?: null | boolean;
+ 
++    /**
++     * Duration to wait after press down before calling `onPressIn`.
++     */
++    unstable_pressDelay?: number;
++
+     /**
+      * Either view styles or a function that receives a boolean reflecting whether
+      * the component is currently pressed and returns view styles.

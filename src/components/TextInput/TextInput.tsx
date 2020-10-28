@@ -32,11 +32,11 @@ const TextInput = React.forwardRef<TextInputRef, TextInputProps>(
       [focused],
     );
     const inputColors = useMemo(
-      () => ({ borderBottomColor: theme.border, color: theme.textOnCard }),
-      [theme.border, theme.textOnCard],
+      () => ({ borderBottomColor: theme.border, color: theme.textOnPrimary }),
+      [theme.border, theme.textOnPrimary],
     );
-    const errorLabel = useMemo(() => ({ color: theme.textErrorOnCard }), [
-      theme.textErrorOnCard,
+    const errorLabel = useMemo(() => ({ color: theme.textErrorOnPrimary }), [
+      theme.textErrorOnPrimary,
     ]);
 
     function handleBlur(e: NativeSyntheticEvent<TextInputFocusEventData>) {

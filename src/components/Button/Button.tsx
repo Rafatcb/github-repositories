@@ -75,7 +75,8 @@ export const Button: React.FC<ButtonProps> = ({
         {...props}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        style={pressableFuncStyle}>
+        style={pressableFuncStyle}
+      >
         <Text style={[styles.text, textStyle]}>{text}</Text>
       </Pressable>
     </Container>

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { PressableAndroidRippleConfig, ViewStyle } from 'react-native';
 import {
   Animated,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -10,6 +11,8 @@ import {
 import type { StackScreenProps } from '@react-navigation/stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
+import { getRepositories } from '../services/github';
 
 import { useTheme } from '../contexts/themeManager';
 
@@ -32,15 +35,16 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
 
   const [inputError, setInputError] = useState('');
 
-  const buttonColor = useMemo(() => ({ backgroundColor: theme.cardButton }), [
-    theme.cardButton,
-  ]);
-  const textColor = useMemo(() => ({ color: theme.cardTitle }), [
-    theme.cardTitle,
+  const buttonColor = useMemo(
+    () => ({ backgroundColor: theme.buttonOnPrimary }),
+    [theme.buttonOnPrimary],
+  );
+  const textColor = useMemo(() => ({ color: theme.textPrimaryOnPrimary }), [
+    theme.textPrimaryOnPrimary,
   ]);
   const ripple: PressableAndroidRippleConfig = useMemo(
-    () => ({ color: theme.rippleOnCard }),
-    [theme.rippleOnCard],
+    () => ({ color: theme.rippleOnPrimary }),
+    [theme.rippleOnPrimary],
   );
 
   useEffect(() => {
@@ -110,13 +114,23 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function handlePress() {
-    const user = inputRef.current?.value;
-    if (!validateInput(user)) {
+  async function handlePress() {
+    const value = inputRef.current?.value;
+    if (!validateInput(value) || !value) {
       return;
     }
 
-    navigation.navigate('Repositories');
+    Keyboard.dismiss();
+    const { user, repositories } = await getRepositories(value);
+    if (repositories.length === 0) {
+      setInputError('No repository found.');
+      return;
+    }
+
+    navigation.navigate('Repositories', {
+      repositories,
+      user,
+    });
   }
 
   function handleChangeText(text: string) {
@@ -179,10 +193,11 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
         <Card
           animatedStyle={cardSlideInStyle}
           sharedElementId="card-enter"
-          style={styles.card}>
+          style={styles.card}
+        >
           <Animated.View style={contentFadeStyle}>
             <Icon
-              color={theme.iconOnCard}
+              color={theme.iconOnPrimary}
               name="github"
               size={100}
               style={styles.icon}

@@ -6,11 +6,11 @@ import { SharedElement } from 'react-navigation-shared-element';
 
 import { useTheme } from '../../contexts/themeManager';
 
-interface CardProps {
+export interface CardProps {
   animatedStyle?: Animated.WithAnimatedValue<ViewStyle>;
   children: React.ReactNode;
   sharedElementId?: string;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -21,9 +21,10 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   const { theme } = useTheme();
   const cardColor = useMemo(
-    () => ({ backgroundColor: theme.card, shadowColor: theme.shadow }),
-    [theme.card, theme.shadow],
+    () => ({ backgroundColor: theme.primary, shadowColor: theme.shadow }),
+    [theme.primary, theme.shadow],
   );
+
   const cardStyles: (
     | StyleProp<ViewStyle>
     | Animated.WithAnimatedValue<ViewStyle>
