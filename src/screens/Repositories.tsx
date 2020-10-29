@@ -73,7 +73,7 @@ const languagesSvg = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getIconName = (language: string | null): React.FC<any> => {
+const getIconName = (language?: string | null): React.FC<any> => {
   if (!language) {
     return languagesSvg.default;
   }
@@ -301,9 +301,7 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
           </Pressable>
         </View>
         <FastImage
-          source={{
-            uri: 'https://avatars0.githubusercontent.com/u/26308880?v=4',
-          }}
+          source={{ uri: route.params.user.avatarUrl }}
           style={styles.avatar}
         />
         <Text style={[styles.headerTitle, headerTitleColor]}>
