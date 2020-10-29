@@ -1,12 +1,12 @@
-import type { Repository, User } from '../services/github';
+import type { RepositoryInfo, UserInfo } from '../services/github';
 
 export type AppStackParamList = {
   EnterAccount: undefined;
   Repositories: {
-    repositories: Repository[];
-    user: User;
+    repositories: RepositoryInfo[];
+    user: UserInfo;
   };
   RepositoryDetails: {
-    repository: Repository;
+    repository: RepositoryInfo;
   };
 };

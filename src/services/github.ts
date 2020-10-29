@@ -10,13 +10,13 @@ interface ReposResponseData {
   };
 }
 
-export interface User {
+export interface UserInfo {
   avatarUrl: string;
   username: string;
 }
 
-export interface Repository {
-  createdAt: Date;
+export interface RepositoryInfo {
+  createdAt: string;
   description: string | null;
   language: string | null;
   languagesUrl: string;
@@ -25,21 +25,21 @@ export interface Repository {
 
 export const getRepositories = async (
   user: string,
-): Promise<{ repositories: Repository[]; user: User }> => {
+): Promise<{ repositories: RepositoryInfo[]; user: UserInfo }> => {
   const endpoint = `https://api.github.com/users/${user}/repos`;
 
   const response = await fetch(endpoint);
   const data = (await response.json()) as ReposResponseData[];
 
-  const repositories: Repository[] = data.map(repo => ({
-    createdAt: new Date(repo.created_at),
+  const repositories: RepositoryInfo[] = data.map(repo => ({
+    createdAt: repo.created_at,
     description: repo.description,
     language: repo.language,
     languagesUrl: repo.languages_url,
     name: repo.name,
   }));
 
-  const owner: User = {
+  const owner: UserInfo = {
     avatarUrl: '',
     username: '',
   };

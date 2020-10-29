@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 
+import { useDatabase } from '@nozbe/watermelondb/hooks';
 import type { StackScreenProps } from '@react-navigation/stack';
 import FastImage from 'react-native-fast-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -20,7 +21,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import type { SharedElementSceneComponent } from 'react-navigation-shared-element';
 import { SharedElement } from 'react-navigation-shared-element';
 
-import type { Repository } from '../services/github';
+import type { RepositoryInfo } from '../services/github';
 
 import { useTheme } from '../contexts/themeManager';
 
@@ -49,8 +50,8 @@ type RepositoriesProps = StackScreenProps<AppStackParamList, 'Repositories'>;
 interface RepositoryCardProps {
   animate: boolean;
   index: number;
-  item: Repository;
-  onPress: (repo: Repository) => void;
+  item: RepositoryInfo;
+  onPress: (repo: RepositoryInfo) => void;
 }
 
 const languagesSvg = {
@@ -137,7 +138,7 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({
   return (
     <Animated.View style={showStyle}>
       <CardPressable
-        key={`${item.name}-${item.createdAt.toString()}`}
+        key={`${item.name}-${item.createdAt}`}
         color={theme.cardOnPrimary}
         onPress={handleRepositoryPress}
         rippleColor={theme.rippleOnCard}
@@ -168,6 +169,7 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
   route,
 }) => {
   const { theme } = useTheme();
+  const database = useDatabase();
 
   const [hideAnim] = useState(new Animated.Value(1));
   const [viewedItems, setViewedItems] = useState<number[]>([]);
@@ -222,6 +224,39 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
   }, [navigation]);
 
   useEffect(() => {
+    // eslint-disable-next-line no-void
+    void database.action(async () => {
+      // const existingUser = database.collections
+      //   .get('users')
+      //   .query(Q.where('username', route.params.user.username));
+      // console.log(existingUser);
+      // const existingRepositories = await this.repositories.collection.query(
+      //   Q.where('id', Q.oneOf(['abcdef', 'dasdasd', 'asdasd'])),
+      // );
+      // const postsToCreate = IDs that are not contained in existingPosts
+      // const poststoUpdate = Posts that are contained in existing Posts
+      // await database.batch(
+      //   database.collections
+      //     .get<UserModel>('users')
+      //     .prepareCreate((user: UserModel) => {
+      //       user.username = route.params.user.username;
+      //       user.avatarUrl = route.params.user.avatarUrl;
+      //     }),
+      //   ...postsToUpdate.map(post => post.prepareUpdate(() => {
+      //     post.title = 'Updated title'
+      //   })),
+      //   ... postsToCreate.map(postData => collection.prepareCreate(post => {
+      //   post.title = 'New title'
+      // );
+      // const help = await database.collections
+      //   .get<UserModel>('users')
+      //   .query(Q.where('username', route.params.user.username))
+      //   .fetch();
+      // console.log(help);
+    });
+  }, [database, route.params]);
+
+  useEffect(() => {
     function backHandler() {
       hideListAndGoBack();
       return true;
@@ -250,19 +285,19 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation]);
 
-  function flatListKeyExtractor(item: Repository) {
-    return `${item.name}-${item.createdAt.toString()}`;
+  function flatListKeyExtractor(item: RepositoryInfo) {
+    return `${item.name}-${item.createdAt}`;
   }
 
   function handleBackPress() {
     hideListAndGoBack();
   }
 
-  function handleRepositoryPress(repo: Repository) {
+  function handleRepositoryPress(repo: RepositoryInfo) {
     navigation.navigate('RepositoryDetails', { repository: repo });
   }
 
-  function renderItem(props: { index: number; item: Repository }) {
+  function renderItem(props: { index: number; item: RepositoryInfo }) {
     const animate = viewedItems.includes(props.index);
     return (
       <RepositoryCard
