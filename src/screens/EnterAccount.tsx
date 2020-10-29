@@ -83,9 +83,9 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
     function firstRenderAnimation() {
       shouldHandleFocus = true;
       Animated.spring(cardAnim, {
-        toValue: 1,
         friction: 6,
         tension: 20,
+        toValue: 1,
         useNativeDriver: true,
       }).start();
 
@@ -225,6 +225,7 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
   );
 };
 
+/* eslint-disable sort-keys */
 const styles = StyleSheet.create({
   button: {
     marginTop: 32,
@@ -247,3 +248,4 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+/* eslint-enable sort-keys */

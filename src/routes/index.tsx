@@ -18,8 +18,8 @@ export const Routes: React.FC = () => {
       <AppStack.Navigator
         initialRouteName="EnterAccount"
         screenOptions={{
-          headerShown: false,
           gestureEnabled: Platform.OS === 'ios',
+          headerShown: false,
         }}
       >
         <AppStack.Screen component={EnterAccount} name="EnterAccount" />

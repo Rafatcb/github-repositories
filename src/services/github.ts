@@ -49,5 +49,5 @@ export const getRepositories = async (
     owner.username = data[0].owner.login;
   }
 
-  return { user: owner, repositories };
+  return { repositories, user: owner };
 };
