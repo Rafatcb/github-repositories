@@ -49,6 +49,7 @@ export const Card: React.FC<CardProps> = ({
   return <Content style={cardStyles as ViewStyle}>{children}</Content>;
 };
 
+/* eslint-disable sort-keys */
 const styles = StyleSheet.create({
   card: {
     padding: 16,
@@ -62,3 +63,4 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
   },
 });
+/* eslint-enable sort-keys */

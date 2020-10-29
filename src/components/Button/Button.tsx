@@ -34,9 +34,9 @@ export const Button: React.FC<ButtonProps> = ({
 
   function setOpacity(toValue: number, duration: number) {
     Animated.timing(anim, {
-      toValue,
       duration,
       easing: Easing.inOut(Easing.quad),
+      toValue,
       useNativeDriver: true,
     }).start();
   }
@@ -83,6 +83,7 @@ export const Button: React.FC<ButtonProps> = ({
   );
 };
 
+/* eslint-disable sort-keys */
 const styles = StyleSheet.create({
   button: {
     overflow: 'hidden',
@@ -93,3 +94,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+/* eslint-enable sort-keys */

@@ -55,9 +55,10 @@ interface RepositoryCardProps {
 
 const languagesSvg = {
   default: Coding,
+  // eslint-disable-next-line sort-keys
   C,
-  'C++': Cpp,
   'C#': Csharp,
+  'C++': Cpp,
   CSS,
   Go,
   Java,
@@ -72,7 +73,7 @@ const languagesSvg = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getIconName = (language: string | null): React.FC<any> => {
+const getIconName = (language?: string | null): React.FC<any> => {
   if (!language) {
     return languagesSvg.default;
   }
@@ -101,8 +102,8 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({
   useEffect(() => {
     function showAnimation() {
       Animated.spring(showAnim, {
-        toValue: 1,
         delay: 100,
+        toValue: 1,
         useNativeDriver: true,
       }).start();
     }
@@ -177,7 +178,7 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
   );
 
   const ripple: PressableAndroidRippleConfig = useMemo(
-    () => ({ radius: 32, color: theme.rippleOnPrimary }),
+    () => ({ color: theme.rippleOnPrimary, radius: 32 }),
     [theme.rippleOnPrimary],
   );
 
@@ -300,9 +301,7 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
           </Pressable>
         </View>
         <FastImage
-          source={{
-            uri: 'https://avatars0.githubusercontent.com/u/26308880?v=4',
-          }}
+          source={{ uri: route.params.user.avatarUrl }}
           style={styles.avatar}
         />
         <Text style={[styles.headerTitle, headerTitleColor]}>
@@ -327,6 +326,7 @@ Repositories.sharedElements = () => {
   return ['card-enter'];
 };
 
+/* eslint-disable sort-keys */
 const styles = StyleSheet.create({
   avatar: {
     width: 36,
@@ -382,5 +382,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
+/* eslint-enable sort-keys */
 
 export { Repositories };

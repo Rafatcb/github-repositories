@@ -80,6 +80,7 @@ export const CardPressable: React.FC<CardPressableProps> = ({
   );
 };
 
+/* eslint-disable sort-keys */
 const styles = StyleSheet.create({
   // eslint-disable-next-line react-native/no-color-literals
   card: {
@@ -90,3 +91,4 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
 });
+/* eslint-enable sort-keys */
