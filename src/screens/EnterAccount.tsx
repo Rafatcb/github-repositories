@@ -5,10 +5,12 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  StatusBar,
   StyleSheet,
 } from 'react-native';
 
 import type { StackScreenProps } from '@react-navigation/stack';
+import RNBootSplash from 'react-native-bootsplash';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -80,9 +82,10 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
       }).start();
     }
 
-    function firstRenderAnimation() {
+    function firstRenderAnimation(delay: number) {
       shouldHandleFocus = true;
       Animated.spring(cardAnim, {
+        delay,
         friction: 6,
         tension: 20,
         toValue: 1,
@@ -100,7 +103,9 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
       if (shouldHandleFocus) {
         fadeContent(1, 350);
       } else {
-        firstRenderAnimation();
+        const splashScreenDuration = 100;
+        RNBootSplash.hide({ duration: splashScreenDuration });
+        firstRenderAnimation(splashScreenDuration);
       }
     }
 
@@ -188,40 +193,45 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior={keyboardAvoidingViewBehavior}>
-        <Card
-          animatedStyle={cardSlideInStyle}
-          sharedElementId="card-enter"
-          style={styles.card}
-        >
-          <Animated.View style={contentFadeStyle}>
-            <Icon
-              color={theme.iconOnPrimary}
-              name="github"
-              size={100}
-              style={styles.icon}
-            />
-            <Animated.View style={titleStyle}>
-              <Text style={[styles.text, textColor]}>GitHub Repositories</Text>
+    <>
+      <StatusBar backgroundColor={theme.primary} />
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView behavior={keyboardAvoidingViewBehavior}>
+          <Card
+            animatedStyle={cardSlideInStyle}
+            sharedElementId="card-enter"
+            style={styles.card}
+          >
+            <Animated.View style={contentFadeStyle}>
+              <Icon
+                color={theme.iconOnPrimary}
+                name="github"
+                size={100}
+                style={styles.icon}
+              />
+              <Animated.View style={titleStyle}>
+                <Text style={[styles.text, textColor]}>
+                  GitHub Repositories
+                </Text>
+              </Animated.View>
+              <TextInput
+                ref={inputRef}
+                error={inputError}
+                onChangeText={handleChangeText}
+                placeholder="Username"
+              />
+              <Button
+                android_ripple={ripple}
+                onPress={handlePress}
+                style={[styles.button, buttonColor]}
+                text="Look for Repositories"
+                textStyle={textColor}
+              />
             </Animated.View>
-            <TextInput
-              ref={inputRef}
-              error={inputError}
-              onChangeText={handleChangeText}
-              placeholder="Username"
-            />
-            <Button
-              android_ripple={ripple}
-              onPress={handlePress}
-              style={[styles.button, buttonColor]}
-              text="Look for Repositories"
-              textStyle={textColor}
-            />
-          </Animated.View>
-        </Card>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+          </Card>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </>
   );
 };
 
