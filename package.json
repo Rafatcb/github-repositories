@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --coverage",
     "eslint": "eslint . --ext .js,.ts,.tsx",
     "stylelint": "stylelint \"**/*.tsx\"",
     "check-types": "tsc --noEmit --skipLibCheck",
@@ -35,6 +35,8 @@
     "@babel/core": "^7.12.3",
     "@babel/runtime": "^7.12.1",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@testing-library/jest-native": "^3.4.3",
+    "@testing-library/react-native": "^7.1.0",
     "@types/jest": "^26.0.15",
     "@types/react-native": "^0.63.26",
     "@types/react-native-vector-icons": "^6.4.6",
@@ -69,6 +71,9 @@
       "jsx",
       "json",
       "node"
+    ],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
     ]
   },
   "husky": {
