@@ -93,6 +93,7 @@ module.exports = {
     },
     {
       files: [
+        'e2e/**/*.{js,ts,tsx}',
         '*.{spec,test}.{js,ts,tsx}',
         '**/__{mocks,tests}__/**/*.{js,ts,tsx}',
       ],
@@ -101,6 +102,16 @@ module.exports = {
           'warn',
           { devDependencies: true },
         ], // forbid the use of extraneous packages, allow devDependencies
+      },
+    },
+    {
+      files: ['e2e/*.{spec,test}.{js,ts,tsx}'],
+      globals: {
+        device: false,
+        expect: false,
+        waitFor: false,
+        element: false,
+        by: false,
       },
     },
   ],

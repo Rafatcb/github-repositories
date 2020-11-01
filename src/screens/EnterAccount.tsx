@@ -219,11 +219,13 @@ export const EnterAccount: React.FC<EnterAccountProps> = ({ navigation }) => {
                 error={inputError}
                 onChangeText={handleChangeText}
                 placeholder="Username"
+                testID="username-input"
               />
               <Button
                 android_ripple={ripple}
                 onPress={handlePress}
                 style={[styles.button, buttonColor]}
+                testID="look-for-repositories-button"
                 text="Look for Repositories"
                 textStyle={textColor}
               />

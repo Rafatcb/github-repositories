@@ -92,6 +92,7 @@ const getIconName = (language?: string | null): React.FC<any> => {
 
 const RepositoryCard: React.FC<RepositoryCardProps> = ({
   animate,
+  index,
   item,
   onPress,
 }) => {
@@ -146,14 +147,23 @@ const RepositoryCard: React.FC<RepositoryCardProps> = ({
         wrapperStyle={styles.cardWrapper}
       >
         <View style={styles.cardHeader}>
-          <LanguageIcon height={24} style={styles.cardLanguage} width={24} />
-          <Text numberOfLines={1} style={styles.cardTitle}>
+          <LanguageIcon
+            height={24}
+            style={styles.cardLanguage}
+            testID={`repository-${index}-icon`}
+            width={24}
+          />
+          <Text
+            numberOfLines={1}
+            style={styles.cardTitle}
+            testID={`repository-${index}-name`}
+          >
             {item.name}
           </Text>
         </View>
-        <Text>Created at {date}</Text>
+        <Text testID={`repository-${index}-created-at`}>Created at {date}</Text>
         {item.description ? (
-          <Text>
+          <Text testID={`repository-${index}-description`}>
             {'\n'}
             {item.description}
           </Text>
@@ -316,6 +326,7 @@ const Repositories: SharedElementSceneComponent<RepositoriesProps> = ({
           keyExtractor={flatListKeyExtractor}
           onViewableItemsChanged={handleViewableItemsChanged}
           renderItem={renderItem}
+          testID="repository-list"
         />
       </Animated.View>
     </SafeAreaView>
