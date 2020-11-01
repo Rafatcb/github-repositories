@@ -1,0 +1,29 @@
+version: 2.1
+
+orbs:
+  react-native: react-native-community/react-native@4.4.2
+
+jobs:
+  checkout_code:
+    executor: react-native/linux_js
+    steps:
+      - checkout
+      - persist_to_workspace:
+          paths: .
+          root: .
+
+workflows:
+  test:
+    jobs:
+      - checkout_code
+      - react-native/android_build:
+          build_type: debug
+          name: build_android_debug
+          project_path: android
+          requires:
+            - checkout_code
+      - react-native/android_test:
+          detox_configuration: android.emu.debug
+          requires:
+            - build_android_debug
+
