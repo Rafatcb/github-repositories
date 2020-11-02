@@ -49,14 +49,14 @@ workflows:
         - content: |-
             #!/bin/bash
 
-            detox build --configuration android.emu.release
-        title: Detox - Build Release App
+            detox build --configuration android.emu.debug
+        title: Detox - Build Debug App
     - script:
         inputs:
         - content: |-
             #!/bin/bash
 
-            detox test --configuration android.emu.release --cleanup
+            detox test --configuration android.emu.debug --cleanup
         title: Detox - Run E2E Tests
   tests:
     before_run:
