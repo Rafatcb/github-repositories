@@ -13,7 +13,6 @@
     "lint": "yarn eslint && yarn check-types && yarn stylelint",
     "e2e:build:android": "detox build --configuration android.emu.debug",
     "e2e:android": "detox test --configuration android.emu.debug",
-    "e2e:android:release": "detox test --configuration android.emu.release",
     "postinstall": "patch-package"
   },
   "dependencies": {
