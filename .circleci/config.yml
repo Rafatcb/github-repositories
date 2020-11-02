@@ -11,15 +11,15 @@ jobs:
       - persist_to_workspace:
           paths: .
           root: .
+      - react-native/yarn_install
 
 workflows:
   test:
     jobs:
       - checkout_code
-      - react-native/android_build:
-          build_type: debug
+      - build_android_debug:
+          command: yarn e2e:build:android
           name: build_android_debug
-          project_path: android
           requires:
             - checkout_code
       - react-native/android_test:
