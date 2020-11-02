@@ -13,6 +13,7 @@ jobs:
           root: .
 
   yarn_install:
+    executor: react-native/linux_js
     description: Install Javascript dependencies using Yarn. This command correctly configures the cache for any number of package.json and yarn.lock files.
     steps:
       - run:
