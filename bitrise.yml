@@ -2,7 +2,7 @@
 format_version: 1.1.0
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 trigger_map:
-- push_branch: "*"
+- pull_request_target_branch: "*"
   workflow: tests
 workflows:
   _tests_setup:
