@@ -11,14 +11,17 @@ jobs:
       - persist_to_workspace:
           paths: .
           root: .
-      - react-native/yarn_install
 
 workflows:
   test:
     jobs:
       - checkout_code
-      - build_android_debug:
-          command: yarn e2e:build:android
+      - react-native/yarn_install:
+          name: yarn_install
+          requires:
+            - checkout_code
+      - react-native/android_build:
+          build_type: debug
           name: build_android_debug
           requires:
             - checkout_code
@@ -26,4 +29,5 @@ workflows:
           detox_configuration: android.emu.debug
           requires:
             - build_android_debug
+            - yarn_install
 

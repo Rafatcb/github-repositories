@@ -170,7 +170,7 @@ android {
         productFlavors {
             common {
                 dimension "api"
-                minSdkVersion 16
+                minSdkVersion rootProject.ext.minSdkVersion
             }
             minApi18 {
                 dimension "api"
