@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 
+import CodePush from 'react-native-code-push';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ThemeManager } from './src/contexts/themeManager';
@@ -17,4 +18,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default CodePush(App);
